@@ -1,77 +1,84 @@
-# Kontext-Wächter
+# Context Watcher (Kontext-Wächter)
 
-Eine Mod für Claude Code. Sie zeigt dir während der Arbeit, wie voll das Gedächtnis der aktuellen Session ist, und sagt dir, wann es sich lohnt, eine Zusammenfassung schreiben zu lassen und in einer frischen Session weiterzumachen. Das spart Tokens und Geld.
+*[Deutsche Version](README.de.md)*
 
-![Die Leiste über dem Eingabefeld](docs/screenshot.png)
-
-## Warum das hilft
-
-Bei jeder Antwort schickt Claude das gesamte bisherige Gespräch noch einmal mit. Je länger eine Session läuft, desto mehr wird bei jeder Nachricht mitgeschleppt, und desto teurer und ungenauer wird sie. Wer rechtzeitig mit einer sauberen Zusammenfassung neu beginnt, arbeitet günstiger und bekommt bessere Antworten.
-
-Der Kontext-Wächter nimmt dir das Beobachten ab.
-
-## Was die Mod macht
-
-**Füllstand im Blick.** Über dem Eingabefeld steht ein Balken mit Prozentzahl, den belegten Tokens und den bisherigen Kosten. Die Zahl wird nach jeder Antwort aktualisiert und steht auch in der Statuszeile.
-
-**Eine Empfehlung, wann Schluss ist.**
-
-| Füllstand | Hinweis |
-|---|---|
-| unter 50 % | Weiterarbeiten |
-| ab 50 % | Bei einem Themenwechsel neu starten |
-| ab 70 % | Zusammenfassung und neue Session lohnen sich jetzt |
-| ab 85 % | Jetzt zusammenfassen und neu starten |
-
-Beim Überschreiten von 70 % und 85 % erscheint zusätzlich ein kurzer Hinweis.
-
-**Übergabe auf Knopfdruck.** Der Knopf „Übergabe erstellen" lässt eine Zusammenfassung für die nächste Session schreiben: Ziel, aktueller Stand, getroffene Entscheidungen, wichtige Dateien, nächste Schritte, bekannte Stolpersteine und deine Arbeitsweise. Sie wird im Projektordner unter `.claude/uebergabe/LETZTE.md` gespeichert, dazu kommt eine Kopie mit Datum im Namen.
-
-**Nahtlos weiterarbeiten.** In der neuen Session gibst du `/weiter` ein. Die Übergabe wird geladen, Claude fasst kurz zusammen, wo ihr steht, und macht beim ersten nächsten Schritt weiter. Liegt beim Start eine noch ungelesene Übergabe bereit, weist die Mod darauf hin.
-
-**Hilfskräfte getrennt gezählt.** Subagenten haben ein eigenes Gedächtnis und füllen das der Hauptsession nicht. Sie werden deshalb nicht in den Balken eingerechnet, aber daneben mit Anzahl der Läufe und verbrauchten Tokens angezeigt.
-
-## Befehle
-
-| Befehl | Wirkung |
-|---|---|
-| `/uebergabe` | Erstellt die Übergabe, wie der Knopf |
-| `/weiter` | Lädt die letzte Übergabe in die neue Session |
-| `/waechter` | Blendet die Leiste ein oder aus |
-
-## Installation
-
-In einer Terminal-Session:
+A mod for Claude Code that shows how full your session's context is, tells you when it is worth switching to a fresh session, and writes a handover note for you with one click. Fewer wasted tokens, better answers in long sessions.
 
 ```
 /plugin install kontext-waechter --marketplace KaelanTesseract/kontext-waechter
 ```
 
-In der Shell:
+![The bar above the prompt box](docs/screenshot.png)
+
+## Why
+
+With every reply, Claude sends the whole conversation again. The longer a session runs, the more is carried along on each message: it gets more expensive, and answers tend to get less precise. Starting fresh at the right moment, with a clean summary, saves money and keeps quality up. The Context Watcher does the watching for you.
+
+## What it does
+
+**Context fill at a glance.** A bar above the prompt box shows the percentage, the tokens in use and the cost so far. It updates after every reply and also appears in the status line.
+
+**A recommendation for when to stop.**
+
+| Fill level | Advice |
+|---|---|
+| below 50 % | Keep working |
+| from 50 % | Start fresh when you change topic |
+| from 70 % | A summary and a new session pay off now |
+| from 85 % | Summarize and start fresh now |
+
+A short notice also appears when you cross 70 % and 85 %.
+
+**Handover in one click.** The "Übergabe erstellen" button (create handover) has Claude write a note for the next session: goal, current state, decisions made, important files, next steps, known pitfalls and how you like to work. It is saved in your project folder as `.claude/uebergabe/LETZTE.md`, plus a dated copy.
+
+**Seamless continuation.** In the new session, type `/weiter`. The handover is loaded, Claude summarizes where you stand and carries on with the first next step. If an unread handover is waiting at startup, the mod tells you.
+
+**Subagents counted separately.** Subagents have their own context and do not fill the main session's. They are not part of the bar, but their runs and tokens are shown next to it.
+
+## Commands
+
+| Command | Effect |
+|---|---|
+| `/uebergabe` | Creates the handover, same as the button |
+| `/weiter` | Loads the last handover into the new session |
+| `/waechter` | Shows or hides the bar |
+
+## Install
+
+In a terminal session:
+
+```
+/plugin install kontext-waechter --marketplace KaelanTesseract/kontext-waechter
+```
+
+From a shell:
 
 ```
 claude plugin install kontext-waechter --marketplace KaelanTesseract/kontext-waechter
 ```
 
-In der Desktop-App läuft `/plugin` nicht. Dort klickst du neben dem Eingabefeld auf **+**, dann auf **Plugins**, **Add marketplace** mit `KaelanTesseract/kontext-waechter` und anschließend auf **Add plugin**.
+In the desktop app, `/plugin` does not run. Click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `KaelanTesseract/kontext-waechter`, then **Add plugin**.
 
-## Neue Session oder `/compact`?
+To update: `claude plugin update kontext-waechter`.
 
-`/compact` ersetzt das Gespräch in der laufenden Session durch eine Zusammenfassung, die Claude selbst auswählt. Das geht schnell, aber Details können unbemerkt verloren gehen. Eine neue Session mit Übergabe beginnt leer und bekommt nur mit, was du mitgibst. Du kannst die Übergabe vorher lesen und ändern.
+## New session or `/compact`?
 
-Als Faustregel: Bleibst du beim selben Thema und der Füllstand liegt zwischen 50 und 70 %, reicht `/compact`. Ab 70 % oder bei einem neuen Thema ist die Übergabe die bessere Wahl.
+`/compact` replaces the conversation inside the running session with a summary that Claude chooses itself. It is quick, but details can get lost unnoticed. A new session with a handover starts empty and only knows what you hand over. You can read and edit the handover first.
 
-## Anpassen
+Rule of thumb: same topic and 50 to 70 % full, `/compact` is enough. From 70 %, or for a new topic, the handover is the better choice.
 
-Die Schwellen (50, 70, 85 Prozent) stehen oben in `hooks/register.tsx` und lassen sich dort ändern. Dort steht auch der Text, mit dem die Übergabe angefordert wird.
+## Customize
 
-## Hinweise
+The thresholds (50, 70, 85 percent) are at the top of `hooks/register.tsx`. The text that asks for the handover is there too (it is written in German; change it to your language if you like).
 
-- Der Knopf „Übergabe erstellen" funktioniert erst, nachdem in der Session mindestens eine Antwort gelaufen ist.
-- Die Übergabe-Dateien liegen im Projektordner. Wer sie nicht in Git haben möchte, trägt `.claude/uebergabe/` in die `.gitignore` ein.
-- Der Dollarbetrag stammt von Claude Code selbst. Ob die Kosten der Subagenten darin enthalten sind, hängt von dessen Zählweise ab.
-- Der Gesamtstand ist der Wert, den Claude Code nach der letzten Antwort meldet. Zwischen zwei Antworten ändert er sich nicht.
+## Notes
 
-## Lizenz
+- The "create handover" button only works after at least one reply has run in the session.
+- Handover files live in your project folder. To keep them out of Git, add `.claude/uebergabe/` to your `.gitignore`.
+- The dollar amount comes from Claude Code itself. Whether it includes subagent costs depends on how Claude Code counts.
+- The fill level is the value Claude Code reports after the last reply. It does not change between replies.
+- The interface text is in German.
 
-MIT, siehe [LICENSE](LICENSE).
+## License
+
+MIT, see [LICENSE](LICENSE).
