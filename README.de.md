@@ -27,9 +27,9 @@ Der Kontext-Wächter nimmt dir das Beobachten ab.
 
 Beim Überschreiten von 70 % und 85 % erscheint zusätzlich ein kurzer Hinweis.
 
-**Übergabe auf Knopfdruck.** Der Knopf „Übergabe erstellen" lässt eine Zusammenfassung für die nächste Session schreiben: Ziel, aktueller Stand, getroffene Entscheidungen, wichtige Dateien, nächste Schritte, bekannte Stolpersteine und deine Arbeitsweise. Sie wird im Projektordner unter `.claude/uebergabe/LETZTE.md` gespeichert, dazu kommt eine Kopie mit Datum im Namen.
+**Übergabe auf Knopfdruck.** Der Knopf „Übergabe" lässt eine Zusammenfassung für die nächste Session schreiben: Ziel, aktueller Stand, getroffene Entscheidungen, wichtige Dateien, nächste Schritte, bekannte Stolpersteine und deine Arbeitsweise. Sie wird im Projektordner unter `.claude/uebergabe/LETZTE.md` gespeichert, dazu kommt eine Kopie mit Datum im Namen.
 
-**Neue Session automatisch (Desktop-App).** Der zweite Knopf „Übergabe + neue Session" bittet Claude zusätzlich, im selben Ordner eine frische Session zu öffnen, die die Übergabe liest und weiterarbeitet. Die Mod kann keine Session selbst öffnen, sie bittet Claude darum. Das klappt nur in der Desktop-App.
+**Neue Session automatisch (Desktop-App).** Der zweite Knopf „+ neue Session" bittet Claude zusätzlich, im selben Ordner eine frische Session zu öffnen, die die Übergabe liest und weiterarbeitet. Die Mod kann keine Session selbst öffnen, sie bittet Claude darum. Das klappt nur in der Desktop-App.
 
 **Nahtlos weiterarbeiten.** In der neuen Session gibst du `/weiter` ein. Die Übergabe wird geladen, Claude fasst kurz zusammen, wo ihr steht, und macht beim ersten nächsten Schritt weiter. Liegt beim Start eine noch ungelesene Übergabe bereit, weist die Mod darauf hin.
 
@@ -71,7 +71,7 @@ Die Schwellen (50, 70, 85 Prozent) stehen oben in `hooks/register.tsx` und lasse
 
 ## Hinweise
 
-- Der Knopf „Übergabe erstellen" funktioniert erst, nachdem in der Session mindestens eine Antwort gelaufen ist.
+- Der Knopf „Übergabe" funktioniert erst, nachdem in der Session mindestens eine Antwort gelaufen ist.
 - Die Übergabe-Dateien liegen im Projektordner. Wer sie nicht in Git haben möchte, trägt `.claude/uebergabe/` in die `.gitignore` ein.
 - Der Dollarbetrag stammt von Claude Code selbst. Ob die Kosten der Subagenten darin enthalten sind, hängt von dessen Zählweise ab.
 - Der Gesamtstand ist der Wert, den Claude Code nach der letzten Antwort meldet. Zwischen zwei Antworten ändert er sich nicht.

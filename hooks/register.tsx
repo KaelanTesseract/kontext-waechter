@@ -277,14 +277,16 @@ ${r.text.trim()}
         {busy ? (
           <Text dimColor>Übergabe wird erstellt… </Text>
         ) : (
-          <Box>
-            <Button key="uebergabe" label="Übergabe erstellen" onPress={() => erstellen(false)} />
+          <>
+            <Button key="uebergabe" label="Übergabe" onPress={() => erstellen(false)} />{' '}
             {e.surface === 'desktop' && (
-              <Button key="neu" label="Übergabe + neue Session" onPress={() => erstellen(true)} />
+              <>
+                <Button key="neu" label="+ neue Session" onPress={() => erstellen(true)} />{' '}
+              </>
             )}
-          </Box>
-        )}{' '}
-        <Button key="hide" label="Ausblenden" onPress={() => $.state.set(isHidden, true)} />
+          </>
+        )}
+        <Button key="hide" label="✕" onPress={() => $.state.set(isHidden, true)} />
       </Box>
     )
   })
