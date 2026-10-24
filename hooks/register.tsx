@@ -143,14 +143,30 @@ export const register: Register = on => {
   on('command.run', { command: 'waechter' }, async $ => {
     const { value: hidden = false } = await $.state.get(isHidden)
     await $.state.set(isHidden, !hidden)
-    const { value: s = null } = await $.state.get(stand)
-    const st = stufe(s?.percent ?? 0)
 
-    return {
-      text:
-        `Kontext-Wächter ${hidden ? 'eingeblendet' : 'ausgeblendet'}. ` +
-        `Stand: ${s?.percent ?? 0}% (${k(s?.tokens ?? 0)} von ${k(s?.window ?? 0)} Tokens). ${st.text}.`,
+    // Gleich messen: in einer Session, in der die Mod eben erst geladen wurde,
+    // gibt es sonst bis zur nächsten Antwort keinen Wert und keine Leiste.
+    const u = await $.session.usage()
+    const percent = u.context.percent ?? 0
+    const s: Stand = {
+      percent,
+      tokens: u.context.tokens ?? 0,
+      window: u.context.window,
+      usd: u.cost?.usd ?? null,
+      turns,
+      agentRuns,
+      agentTokens,
     }
+    await $.state.set(stand, s)
+    $.ui.status(`Kontext ${percent}% ${balken(percent)}`)
+    lastRank = stufe(percent).rank
+
+    const st = stufe(percent)
+    const stand_ = s.tokens === 0
+      ? 'Noch keine Antwort in dieser Session gemessen, die Leiste füllt sich nach der nächsten Antwort.'
+      : `Stand: ${percent}% (${k(s.tokens)} von ${k(s.window)} Tokens). ${st.text}.`
+
+    return { text: `Kontext-Wächter ${hidden ? 'eingeblendet' : 'ausgeblendet'}. ${stand_}` }
   })
 
   on('command.run', { command: 'uebergabe' }, async $ => {
