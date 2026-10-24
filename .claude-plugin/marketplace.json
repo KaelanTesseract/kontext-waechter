@@ -1,0 +1,11 @@
+{
+  "name": "kontext-waechter",
+  "owner": { "name": "KaelanTesseract" },
+  "plugins": [
+    {
+      "name": "kontext-waechter",
+      "source": "./",
+      "description": "Zeigt, wie voll der Kontext einer Claude-Session ist, und erstellt auf Knopfdruck eine Übergabe für die nächste Session."
+    }
+  ]
+}
