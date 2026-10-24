@@ -223,6 +223,41 @@ export const register: Register = on => {
     }
 
     const { Box, Text, Button } = $.ui.resolve(e)
+    // Erstellt die Übergabe; mit neu=true bittet es danach Claude, eine neue
+    // Session zu öffnen (das kann nur die Desktop-App, die Mod selbst nicht).
+    const erstellen = async (neu: boolean) => {
+      await $.state.set(isBusy, true)
+      const r = await $.model.fork({ prompt: UEBERGABE_PROMPT })
+      await $.state.set(isBusy, false)
+      if (!r.isAnswered) {
+        $.ui.toast(`Übergabe nicht möglich (${r.reason}).`)
+        return
+      }
+      const jetzt = await $.clock.now()
+      const doc = `<!-- erstellt: ${jetzt} -->
+${r.text.trim()}
+`
+      await $.fs.write(`${ORDNER}/uebergabe-${dateiname(jetzt)}.md`, doc)
+      await $.fs.write(LETZTE, doc)
+
+      if (!neu) {
+        $.ui.toast('Übergabe gespeichert. In der neuen Session /weiter eingeben.')
+        return
+      }
+
+      const cwd = await $.session.cwd()
+      await $.fs.write(GELESEN, stempel(doc))
+      $.ui.toast('Übergabe gespeichert, neue Session wird geöffnet.')
+      void $.prompt.submit({
+        text:
+          `Die Übergabe liegt in ${cwd}/${LETZTE}. Öffne jetzt mit dem Werkzeug zum Starten einer Session ` +
+          `eine neue Session im Ordner ${cwd} (frischer Kontext, ohne diesen Verlauf), deren Auftrag lautet: ` +
+          `"Lies ${cwd}/${LETZTE}, fasse in zwei Sätzen zusammen, wo wir stehen, und mach mit dem ersten ` +
+          `nächsten Schritt weiter." Antworte hier danach nur mit einem Satz, dass die neue Session läuft. ` +
+          'Gibt es dieses Werkzeug nicht, sag das kurz und nenne den Befehl /weiter für die neue Session.',
+      })
+    }
+
     const st = stufe(s.percent)
     const cost = s.usd === null ? '' : ` · $${s.usd.toFixed(2)}`
     const runs = s.agentRuns ?? 0
@@ -242,24 +277,12 @@ export const register: Register = on => {
         {busy ? (
           <Text dimColor>Übergabe wird erstellt… </Text>
         ) : (
-          <Button
-            key="uebergabe"
-            label="Übergabe erstellen"
-            onPress={async () => {
-              await $.state.set(isBusy, true)
-              const r = await $.model.fork({ prompt: UEBERGABE_PROMPT })
-              await $.state.set(isBusy, false)
-              if (!r.isAnswered) {
-                $.ui.toast(`Übergabe nicht möglich (${r.reason}).`)
-                return
-              }
-              const jetzt = await $.clock.now()
-              const doc = `<!-- erstellt: ${jetzt} -->\n${r.text.trim()}\n`
-              await $.fs.write(`${ORDNER}/uebergabe-${dateiname(jetzt)}.md`, doc)
-              await $.fs.write(LETZTE, doc)
-              $.ui.toast('Übergabe gespeichert. In der neuen Session /weiter eingeben.')
-            }}
-          />
+          <Box>
+            <Button key="uebergabe" label="Übergabe erstellen" onPress={() => erstellen(false)} />
+            {e.surface === 'desktop' && (
+              <Button key="neu" label="Übergabe + neue Session" onPress={() => erstellen(true)} />
+            )}
+          </Box>
         )}{' '}
         <Button key="hide" label="Ausblenden" onPress={() => $.state.set(isHidden, true)} />
       </Box>

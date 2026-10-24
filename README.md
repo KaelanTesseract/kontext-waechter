@@ -31,6 +31,8 @@ A short notice also appears when you cross 70 % and 85 %.
 
 **Handover in one click.** The "Übergabe erstellen" button (create handover) has Claude write a note for the next session: goal, current state, decisions made, important files, next steps, known pitfalls and how you like to work. It is saved in your project folder as `.claude/uebergabe/LETZTE.md`, plus a dated copy.
 
+**New session opened for you (desktop app).** The second button, "Übergabe + neue Session", also asks Claude to open a fresh session in the same folder that reads the handover and carries on. The mod cannot open sessions itself, so it asks Claude to do it; this works in the desktop app only.
+
 **Seamless continuation.** In the new session, type `/weiter`. The handover is loaded, Claude summarizes where you stand and carries on with the first next step. If an unread handover is waiting at startup, the mod tells you.
 
 **Subagents counted separately.** Subagents have their own context and do not fill the main session's. They are not part of the bar, but their runs and tokens are shown next to it.

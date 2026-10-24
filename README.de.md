@@ -29,6 +29,8 @@ Beim Überschreiten von 70 % und 85 % erscheint zusätzlich ein kurzer Hinweis.
 
 **Übergabe auf Knopfdruck.** Der Knopf „Übergabe erstellen" lässt eine Zusammenfassung für die nächste Session schreiben: Ziel, aktueller Stand, getroffene Entscheidungen, wichtige Dateien, nächste Schritte, bekannte Stolpersteine und deine Arbeitsweise. Sie wird im Projektordner unter `.claude/uebergabe/LETZTE.md` gespeichert, dazu kommt eine Kopie mit Datum im Namen.
 
+**Neue Session automatisch (Desktop-App).** Der zweite Knopf „Übergabe + neue Session" bittet Claude zusätzlich, im selben Ordner eine frische Session zu öffnen, die die Übergabe liest und weiterarbeitet. Die Mod kann keine Session selbst öffnen, sie bittet Claude darum. Das klappt nur in der Desktop-App.
+
 **Nahtlos weiterarbeiten.** In der neuen Session gibst du `/weiter` ein. Die Übergabe wird geladen, Claude fasst kurz zusammen, wo ihr steht, und macht beim ersten nächsten Schritt weiter. Liegt beim Start eine noch ungelesene Übergabe bereit, weist die Mod darauf hin.
 
 **Hilfskräfte getrennt gezählt.** Subagenten haben ein eigenes Gedächtnis und füllen das der Hauptsession nicht. Sie werden deshalb nicht in den Balken eingerechnet, aber daneben mit Anzahl der Läufe und verbrauchten Tokens angezeigt.

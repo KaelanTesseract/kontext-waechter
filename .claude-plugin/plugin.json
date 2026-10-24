@@ -1,6 +1,6 @@
 {
   "name": "kontext-waechter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Zeigt den Füllstand des Kontexts und sagt, wann eine Zusammenfassung und eine neue Session Token spart.",
   "types": "./types/index.d.ts"
 }
